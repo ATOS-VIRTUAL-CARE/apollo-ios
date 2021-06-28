@@ -37,7 +37,7 @@ public class WebSocketTransport {
   let serializationFormat = JSONSerializationFormat.self
   private let requestBodyCreator: RequestBodyCreator
 
-  private final let protocols = ["graphql-ws"]
+  private final let protocols = ["graphql-ws", "graphql-transport-ws"]
   
   /// non-private for testing - you should not use this directly
   enum SocketConnectionState {
@@ -105,7 +105,7 @@ public class WebSocketTransport {
               connectOnInit: Bool = true,
               connectingPayload: GraphQLMap? = [:],
               requestBodyCreator: RequestBodyCreator = ApolloRequestBodyCreator(),
-              certPinner: CertificatePinning? = FoundationSecurity(),
+              certPinner: CertificatePinning? = FoundationSecurity(allowSelfSigned: true),
               compressionHandler: CompressionHandler? = nil) {
     self.connectingPayload = connectingPayload
     self.sendOperationIdentifiers = sendOperationIdentifiers
@@ -150,6 +150,7 @@ public class WebSocketTransport {
 
       switch messageType {
       case .data,
+           .next,
            .error:
         if
           let id = parseHandler.id,
@@ -191,6 +192,7 @@ public class WebSocketTransport {
 
       case .connectionInit,
            .connectionTerminate,
+           .subscribe,
            .start,
            .stop,
            .connectionError:

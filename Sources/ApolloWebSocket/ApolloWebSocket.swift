@@ -33,9 +33,9 @@ public class ApolloWebSocket: WebSocket, ApolloWebSocketClient {
   private var transport: FoundationTransport!
   
   required public init(request: URLRequest,
-                       certPinner: CertificatePinning? = FoundationSecurity(),
+                       certPinner: CertificatePinning? = FoundationSecurity(allowSelfSigned: true),
                        compressionHandler: CompressionHandler? = nil) {
-    let engine = WSEngine(transport: FoundationTransport(),
+    let engine = WSEngine(transport: TCPTransport(),
                           certPinner: certPinner,
                           compressionHandler: compressionHandler)
     
