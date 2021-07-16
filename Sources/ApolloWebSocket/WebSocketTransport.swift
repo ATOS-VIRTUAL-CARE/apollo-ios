@@ -137,6 +137,7 @@ public class WebSocketTransport {
 
       switch messageType {
       case .data,
+           .next,
            .error:
         if
           let id = parseHandler.id,
@@ -178,6 +179,7 @@ public class WebSocketTransport {
 
       case .connectionInit,
            .connectionTerminate,
+           .subscribe,
            .start,
            .stop,
            .connectionError:

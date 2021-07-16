@@ -5,7 +5,7 @@ import Foundation
 public class DefaultWebSocket: WebSocketClient, Starscream.WebSocketDelegate  {
 
   /// The websocket protocols supported by this websocket client implementation.
-  static private let wsProtocols = ["graphql-ws"]
+  static private let wsProtocols = ["graphql-ws", "graphql-transport-ws"]
 
   /// The underlying `Starscream` websocket used by this websocket client.
   private let underlyingWebsocket: Starscream.WebSocket
